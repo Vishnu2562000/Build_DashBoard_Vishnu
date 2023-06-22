@@ -1,12 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import firebase from "../firebaseConfig";
 
 function Header() {
   const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
 
   const picture = JSON.parse(localStorage.getItem("user"));
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth <= 768); // Adjust the breakpoint as needed
+    };
+
+    handleResize(); // Check initial screen size
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const handleProfileClick = () => {
     setShowDropdown(!showDropdown);
@@ -32,9 +47,11 @@ function Header() {
 
   return (
     <div className="flex justify-between items-center h-30px p-2">
-      <div className="flex items-center pl-2 font-montserrat font-semibold text-3xl leading-29px text-black">
-        Dashboard
-      </div>
+      {!isSmallScreen && (
+        <div className="flex items-center pl-2 font-montserrat font-semibold text-3xl leading-29px text-black">
+          Dashboard
+        </div>
+      )}
 
       <div className="flex items-center">
         <div className="relative flex items-center">
