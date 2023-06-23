@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 function Sidebar() {
   const options = [
@@ -30,68 +30,31 @@ function Sidebar() {
     },
   ];
 
-  const optionStyles = {
-    position: "relative",
-    width: "100%",
-    fontFamily: "Montserrat",
-    fontStyle: "normal",
-    fontWeight: 700,
-    fontSize: "18px",
-    lineHeight: "22px",
-    color: "#FFFFFF",
-    marginTop: "10px",
-  };
+  const optionStyles =
+    "relative w-full font-montserrat font-semibold text-white text-base mt-10";
 
-  const activeLinkStyles = "text-blue-100 font-bold"; // Replace with your desired active link styles
+  const activeLinkStyles = "font-black italic"; // Replace with your desired active link styles
 
-  const sidebarStyles = {
-    position: "fixed",
-    top: "3%",
-    bottom: "3%",
-    left: "2%",
-    width: "15%",
-    backgroundColor: "black",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    borderRadius: "30px",
-    padding: "20px",
-  };
+  const sidebarStyles =
+    "fixed top-5 bottom-5 left-3 w-1/6 bg-black flex flex-col items-center justify-start rounded-3xl p-5";
 
-  const bottomLinksStyles = {
-    position: "relative",
-    width: "100%",
-    fontFamily: "Montserrat",
-    fontStyle: "normal",
-    fontWeight: 700,
-    fontSize: "18px",
-    lineHeight: "22px",
-    color: "#FFFFFF",
-    marginTop: "auto",
-    display: "flex",
-    flexDirection: "column",
-    marginBottom: "10px", // Adjust the gap between the bottom of the sidebar and the links
-    backgroundColor: "black",
-    alignItems: "flex-start",
-    fontFamily: "Montserrat",
-  };
+  const bottomLinksStyles =
+    "relative w-full font-montserrat font-semibold text-white text-base mt-auto flex flex-col mb-10 bg-black items-start pl-3";
+
+  const location = useLocation();
 
   return (
-    <div style={sidebarStyles}>
-      <h1 className="text-white text-2xl font-semibold my-12 mx-5">Build.</h1>
-      <div className="flex flex-col gap-10">
+    <div className={sidebarStyles}>
+      <h1 className="text-white text-3xl font-semibold my-6 mx-5">Build.</h1>
+      <div className="flex flex-col gap-5">
         {options.map((ele, index) => (
           <div
             key={index}
-            className="flex items-center gap-5"
-            style={optionStyles}
+            className={`flex items-center gap-5 ${
+              location.pathname === ele.link ? activeLinkStyles : ""
+            } ${optionStyles}`}
           >
-            <NavLink
-              to={ele.link}
-              className="flex items-center gap-5"
-              activeClassName={activeLinkStyles}
-            >
+            <NavLink to={ele.link} className="flex items-center gap-5">
               <img src={ele.icon} alt={ele.title} />
               <span className="text-white text-base font-normal">
                 {ele.title}
@@ -100,19 +63,11 @@ function Sidebar() {
           </div>
         ))}
       </div>
-      <div style={bottomLinksStyles} className="pl-3">
-        <NavLink
-          to="/help"
-          className="text-white text-base font-normal"
-          activeClassName={activeLinkStyles}
-        >
+      <div className={bottomLinksStyles}>
+        <NavLink to="/help" className="text-white text-base font-normal">
           Help
         </NavLink>
-        <NavLink
-          to="/contact"
-          className="text-white text-base font-normal"
-          activeClassName={activeLinkStyles}
-        >
+        <NavLink to="/contact" className="text-white text-base font-normal">
           Contact
         </NavLink>
       </div>
